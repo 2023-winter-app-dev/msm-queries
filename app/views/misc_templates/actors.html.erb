@@ -1,0 +1,46 @@
+<table border="1">
+  <tr>
+    <th>
+      ID
+    </th>
+
+    <th>
+      Image
+    </th>
+
+    <th>
+      Name
+    </th>
+
+    <th>
+      Dob
+    </th>
+
+    <th>
+      
+    </th>
+
+  <tr>
+  <% Actor.all.each do |listing| %>
+    <tr>
+
+      <th>
+        <%= listing.id %>
+      </th>
+      <th>
+        <img src = <%= listing.image%> >
+      </th>
+      <th>
+        <%= listing.name %>
+      </th>
+      <th>
+        <%= listing.dob %>
+      </th>
+      <th>
+        <a href = <%="/actors/"+listing.id.to_s %>>Show details</a>
+      </th>
+    </tr>
+  <% end %>
+
+
+</table>

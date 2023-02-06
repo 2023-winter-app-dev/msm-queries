@@ -1,0 +1,77 @@
+<% @current_movie = Movie.all.where({:id => params["movie_id"]})[0] %>
+
+
+<% @movies_list = Movie.all.where({:director_id => params["director_id"]}) %>
+
+<h1><%= "Movie # " + params["movie_id"].to_s + " details"%></h1>
+
+<a href = "/movies"> Go back </a>
+
+
+<hr>
+<dt>
+  Title
+</dt>
+
+<dd>
+  <%= @current_movie.title%>
+</dd>
+
+<dt>
+  Year
+</dt>
+
+<dd>
+  <%= @current_movie.year%>
+</dd>
+
+<dt>
+  Duration
+</dt>
+
+<dd>
+  <%= @current_movie.duration%>
+</dd>
+
+<dt>
+  Description
+</dt>
+
+<dd>
+  <%= @current_movie.description %>
+</dd>
+
+<dt>
+  Image
+</dt>
+
+<dd>
+  <img src = <%= @current_movie.image %> >
+</dd>
+
+<dt>
+  Director
+</dt>
+
+<dd>
+  <%= Director.all.where({:id => @current_movie.director_id})[0].name %>
+</dd>
+
+<dt>
+  Created at
+</dt>
+
+<dd>
+  <%= "More than " + ((Time.now - @current_movie.created_at)/(86400*365)).floor.to_s + " years ago" %>
+</dd>
+
+<dt>
+  Updated at
+</dt>
+
+<dd>
+  <%= "More than " + ((Time.now - @current_movie.updated_at)/(86400*365)).floor.to_s + " years ago"  %>
+</dd>
+</hr>
+
+<hr>

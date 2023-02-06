@@ -1,0 +1,11 @@
+<% @current_director = Director.all.order({:dob => :asc})[0] %>%
+<h1>Eldest director</h1>
+
+<div>
+
+The eldest director right now is
+  <a href = <%= "/director" + @current_director.id %>> <%= @current_director.name%></a>
+  <%="", born on" + <%= @current_director.dob.strftime("%m %d, %y") %> 
+
+
+</div>

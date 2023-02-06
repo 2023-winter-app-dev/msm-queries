@@ -1,0 +1,141 @@
+<%if params["director_id"] == "eldest"%>
+
+  <% @current_director = Director.all.where.not({:dob => nil}).order({:dob => :asc})[0] %>
+  <h1>Eldest director</h1>
+
+  <div>
+
+  The eldest director in our dataset right now is
+    <a href = <%= "/directors/" + @current_director.id.to_s %>> <%= @current_director.name%></a><%=", born on " + @current_director.dob.strftime("%B %d, %Y") +"." %> 
+  </div>
+
+<% elsif params["director_id"] == "youngest" %>
+
+  <% @current_director = Director.all.where.not({:dob => nil}).order({:dob => :desc})[0] %>
+
+  <h1>Youngest director</h1>
+
+  <div>
+    The youngest director in our dataset right now is
+    <a href = <%= "/directors" + @current_director.id.to_s%>> <%= @current_director.name%></a><%= ", born on " + @current_director.dob.strftime("%B %d, %Y")+"."%>
+  </div>
+
+
+<% else %>
+  <% @current_director = Director.all.where({:id => params["director_id"]})[0] %>
+
+  <% @movies_list = Movie.all.where({:director_id => params["director_id"]}) %>
+  <h1><%= "Director # " + params["director_id"].to_s + " details"%></h1>
+  <a href = "/directors"> Go back </a>
+
+  <hr>
+  <dt>
+    Name
+  </dt>
+
+  <dd>
+    <%= @current_director.name%>
+  </dd>
+
+  <dt>
+    Dob
+  </dt>
+
+  <dd>
+    <%= @current_director.dob%>
+  </dd>
+
+  <dt>
+    Bio
+  </dt>
+
+  <dd>
+    <%= @current_director.bio%>
+  </dd>
+
+  <dt>
+    Image
+  </dt>
+
+  <dd>
+    <img src = <%= @current_director.image %> >
+  </dd>
+
+  <dt>
+    Created at
+  </dt>
+
+  <dd>
+    <%= "More than " + ((Time.now - @current_director.created_at)/(86400*365)).floor.to_s + " years ago" %>
+  </dd>
+
+  <dt>
+    Updated at
+  </dt>
+
+  <dd>
+    <%= "More than " + ((Time.now - @current_director.updated_at)/(86400*365)).floor.to_s + " years ago"  %>
+  </dd>
+  </hr>
+
+  <hr>
+  <h1>Filmography</h1>
+  <table border = 1">
+    <tr>
+      <th>
+        Id
+      </th>
+
+      <th>
+        Image
+      </th>
+
+      <th>
+        Title
+      </th>
+
+      <th>
+        Year
+      </th>
+
+      <th>
+        Director
+      </th>
+
+      <th>
+        
+      </th>
+    </tr>
+
+
+  <% @movies_list.each do |movie|%>
+    <tr>
+      <th>
+        <%= movie.id %>
+      </th>
+
+      <th>
+        <img src = <%= movie.image %>>
+      </th>
+
+      <th>
+        <%= movie.title %>        
+      </th>
+
+      <th>
+        <%= movie.year%>
+      </th>
+
+      <th>
+        <%= Director.all.where({:id => movie.director_id}).name %>
+      </th>
+
+      <th>
+        <a href = <%= "/movies/" + movie.id.to_s %>> Show details </a>
+      </th>
+    </tr>
+    <% end %>
+
+  </table>
+  </hr>
+<% end %>
